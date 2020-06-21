@@ -1,0 +1,38 @@
+<!doctype html>
+<html>
+  <head>
+    <title>OwlChat</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link rel="stylesheet" href="main.css">
+  </head>
+  <body>
+    <section id="chat-info-wrapper">
+      <h3 contenteditable="true" id="username"></h3>
+      <ul id="rooms-wrapper">
+        <li class="room-info">
+          <p class="room">Global</p>
+        </li>
+      </ul>
+    </section>
+
+    <section id="chat-box-wrapper">
+      <h3 id="roomname">Global</h3>
+
+      <ul id="message-list">
+        <!-- <li class="message">
+          <p class="user">Brad<span class="time">9:12</span></p>
+          <p class="text">This is a message</p>
+        </li> -->
+      </ul>
+
+      <form action="" id="messageForm">
+        <input id="messageInput" autocomplete="on" />
+        <button>Send</button>
+      </form>
+
+    </section>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src='index.js' type='module'></script>
+  </body>
+</html>

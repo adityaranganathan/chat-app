@@ -1,0 +1,133 @@
+:root {
+    --main-bg-color: #221e1e;
+    --message-bg-color:#d9eefb;
+    --header-bg-color:#ededed;
+}
+
+*{ 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box;
+    font-size: 10px;
+    font-family: 'Roboto', sans-serif;
+}
+html{
+    height:100%;
+    background-color: var(--main-bg-color);
+}
+body{
+    height:100%;
+    display:grid;
+    grid-template-columns: minmax(0px, 1fr) minmax(200px, 400px) minmax(600px, 1000px) minmax(0px, 1fr);
+    overflow:hidden;
+}
+
+#chat-info-wrapper{
+    grid-column: 2/3;
+    background-color: var(--header-bg-color);
+    box-shadow: -3px -3px 9px -1px black;
+}
+#username{
+    height:60px;
+    width:100%;
+    padding:0rem 2rem;
+    line-height: 60px;
+    font-size: 2.5rem;
+    background-color: var(--header-bg-color);
+}
+#chat-box-wrapper{
+    grid-column: 3/4;
+    background-color: #e5ddd5;
+    box-shadow: 0px -3px 5px -1px black;
+    position:relative;
+}
+.room-info{
+    height:75px;
+    background-color: white;
+    border-top:solid 1px #d0d0d0;
+}
+.room{
+    font-size:2rem;
+    line-height: 75px;
+    padding-left:2rem;
+}
+#roomname{
+    height:60px;
+    width:100%;
+    padding:0rem 2rem;
+    line-height: 60px;
+    font-size: 2.5rem;
+    background-color: var(--header-bg-color);
+}
+#message-list{
+    position: absolute;
+    top:60px;
+    bottom:50px;
+    left:0px;
+    right:0px;
+    overflow: auto;
+}
+.message{
+    list-style-type: none;
+    /* height:50px; */
+    height:max-content;
+    margin:2rem;
+    border-radius: .5em;
+    background-color: var(--message-bg-color);
+    padding:0.9rem;
+    position: relative;
+}
+.message .user{
+    font-size: 1.25rem;
+    font-weight: 500;
+    padding-left: 0.1rem;
+}
+.message .user .time{
+    font-weight: 500;
+    position: absolute;
+    right:1rem;
+}
+.message .text{
+    font-size: 1.75rem;
+}
+
+
+#messageForm{
+    height:50px;
+    width:100%;
+    bottom:0;
+    position: absolute;
+    bottom:0;
+    left:0;
+    right:0;
+}
+#messageForm input{
+    height:100%;
+    width:100%;
+    padding:1rem;
+    margin:0;
+    border:none;
+    border-radius:0.5rem;
+    padding-right: 10%;
+    font-size:2rem;
+}
+#messageForm button{
+    height:100%;
+    width:10%;
+    position: absolute;
+    right:0;
+    border:black;
+    border-radius:0.5rem;
+    font-size:1.5rem;
+    cursor: pointer;
+}
+
+li{ 
+    list-style-type: none;
+}
+
+@media(min-width: 1300px){
+    body{
+        padding:2rem;
+    }
+}
