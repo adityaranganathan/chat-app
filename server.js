@@ -11,12 +11,13 @@ else{
   console.log('devConfig.js was copied to public');
 }
 
+import {server_port} from './public/environmentConfig.js';
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server)
 
-const port = 3000
+const port = server_port
 app.use(express.static(__dirname + '/public'));
 io.set('origins', '*:*');
 
