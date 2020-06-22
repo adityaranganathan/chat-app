@@ -1,10 +1,15 @@
 // "use strict"
 
 import {getRandomUsername} from './utils.js';
+import {socket_server} from './environmentConfig.js';
 
 var socket = io();
+if(socket_server){
+    console.log("Setting Prod Socket config")
+    socket = io.connect('http://chat.aditya-r.com:8000');
+}
 console.log("Any code ran once")
-
+console.log()
 var username = getRandomUsername()
 var usernameBanner = document.getElementById('username')
 usernameBanner.textContent = username

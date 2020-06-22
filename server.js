@@ -1,4 +1,15 @@
 "use strict";
+const fs = require('fs');
+const { COPYFILE_FICLONE } = fs.constants;
+
+if(process.argv[2] == 'production'){
+  fs.copyFileSync('config/prodConfig.js', 'public/EnvironmentConfig.js');
+  console.log('prodConfig.js was copied to public');
+}
+else{
+  fs.copyFileSync('config/devConfig.js', 'public/EnvironmentConfig.js');
+  console.log('devConfig.js was copied to public');
+}
 
 const express = require('express');
 const app = express();
@@ -7,9 +18,9 @@ const io = require('socket.io')(server)
 
 const port = 3000
 app.use(express.static(__dirname + '/public'));
+io.set('origins', '*:*');
 
 const username = "OwlChatBot"
-
 var users = {}
 
 io.on('connection', (socket) => {
@@ -39,5 +50,4 @@ io.on('connection', (socket) => {
 });
 
 
-
-server.listen(port, () => console.log('Example server Running'))
+server.listen(port, () => console.log('Socket server Running'))
