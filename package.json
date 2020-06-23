@@ -18,7 +18,7 @@
     "nodemon": "^2.0.4"
   },
   "nodemonConfig": {
-    "ignore": ["config/*", "public/environmentConfig.js"],
+    "ignore": ["config/*", "public/EnvironmentConfig.js"],
     "delay": "2500"
   }
 }
