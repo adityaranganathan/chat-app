@@ -1,15 +1,14 @@
 // "use strict"
-
+import * as envConfig from './environmentConfig.js';
 import {getRandomUsername} from './utils.js';
-import {socket_server} from './environmentConfig.js';
+
 
 var socket = io();
-if(socket_server){
+if(envConfig.socket_server){
     console.log("Setting Prod Socket config")
     socket = io.connect('http://chat.aditya-r.com:8000');
 }
-console.log("Any code ran once")
-console.log()
+
 var username = getRandomUsername()
 var usernameBanner = document.getElementById('username')
 usernameBanner.textContent = username
@@ -24,19 +23,14 @@ messageForm.addEventListener('submit', OnMessageSubmit)
 socket.emit('joinRoom', {username})
 socket.on('newMsg', outputMsg)
 
-
 function OnMessageSubmit(evt){
     
     evt.preventDefault();
     let msgText = evt.target.elements.messageInput.value
 
     let date = new Date()
-    console.log(date)
-    console.log(new Date().toLocaleTimeString())
     let time = new Date().toLocaleTimeString()
-    socket.emit('newMsg', {username,
-                           msgText,
-                           time})
+    socket.emit('newMsg', {username, msgText, time})
     
     evt.target.elements.messageInput.value = '';
 }

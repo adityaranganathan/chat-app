@@ -3,21 +3,21 @@ const fs = require('fs');
 const { COPYFILE_FICLONE } = fs.constants;
 
 if(process.argv[2] == 'production'){
-  fs.copyFileSync('config/prodConfig.js', 'public/EnvironmentConfig.js');
+  fs.copyFileSync('config/prodConfig.js', 'public/EnvironmentConfig.js', COPYFILE_FICLONE);
   console.log('prodConfig.js was copied to public');
 }
 else{
-  fs.copyFileSync('config/devConfig.js', 'public/EnvironmentConfig.js');
+  fs.copyFileSync('config/devConfig.js', 'public/EnvironmentConfig.js', COPYFILE_FICLONE);
   console.log('devConfig.js was copied to public');
 }
 
-import {server_port} from './public/environmentConfig.js';
+var envConfig = require('./public/environmentConfig.js');
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server)
 
-const port = server_port
+const port = envConfig.server_port
 app.use(express.static(__dirname + '/public'));
 io.set('origins', '*:*');
 
