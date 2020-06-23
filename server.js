@@ -11,7 +11,7 @@ else{
   console.log('devConfig.js was copied to public');
 }
 
-var envConfig = require('./public/environmentConfig.js');
+var envConfig = require('./public/EnvironmentConfig.js');
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
