@@ -1,10 +1,9 @@
 // "use strict"
-import * as envConfig from './environmentConfig.js';
 import {getRandomUsername} from './utils.js';
-
+import {socket_server} from './environmentConfig.js';
 
 var socket = io();
-if(envConfig.socket_server){
+if(socket_server){
     console.log("Setting Prod Socket config")
     socket = io.connect('http://chat.aditya-r.com:8000');
 }
