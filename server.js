@@ -3,12 +3,12 @@ const fs = require('fs');
 const { COPYFILE_FICLONE } = fs.constants;
 
 if(process.argv[2] == 'production'){
-  fs.copyFileSync('config/prodClientConfig.js', 'public/EnvironmentConfig.js', COPYFILE_FICLONE);
+  fs.copyFileSync('config/prodClientConfig.js', 'public/environmentConfig.js', COPYFILE_FICLONE);
   console.log('prodClientConfig.js was copied to public');
   var serverConfig = require('./config/prodServerConfig.js');
 }
 else{
-  fs.copyFileSync('config/devClientConfig.js', 'public/EnvironmentConfig.js', COPYFILE_FICLONE);
+  fs.copyFileSync('config/devClientConfig.js', 'public/environmentConfig.js', COPYFILE_FICLONE);
   console.log('devClientConfig.js was copied to public');
   var serverConfig = require('./config/devServerConfig.js');
 }
