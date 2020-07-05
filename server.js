@@ -1,56 +1,59 @@
 "use strict";
-const fs = require('fs');
-const { COPYFILE_FICLONE } = fs.constants;
 
-if(process.argv[2] == 'production'){
-  fs.copyFileSync('config/prodClientConfig.js', 'public/environmentConfig.js', COPYFILE_FICLONE);
-  console.log('prodClientConfig.js was copied to public');
-  var serverConfig = require('./config/prodServerConfig.js');
-}
-else{
-  fs.copyFileSync('config/devClientConfig.js', 'public/environmentConfig.js', COPYFILE_FICLONE);
-  console.log('devClientConfig.js was copied to public');
-  var serverConfig = require('./config/devServerConfig.js');
-}
+const {configureEnvironment}  = require('./utils/configure.js')
+const serverConfig = configureEnvironment(process.argv[2])
+
+const contactRouter = require('./routes/contactRouter')
+const { messageRouter, insertMessage} = require('./routes/messageRouter')
 
 const express = require('express');
 const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server)
 
-const port = serverConfig.port
-console.log(port)
 app.use(express.static(__dirname + '/public'));
+app.use('/contacts', contactRouter);
+app.use('/messages', messageRouter);
+
+// const username = "OwlChatBot"
+var allSockets = {}
+var allUsers = {}
+
 io.set('origins', '*:*');
-
-const username = "OwlChatBot"
-var users = {}
-
 io.on('connection', (socket) => {
 
-    socket.on('joinRoom', (data) => {
+  socket.join('global')
+  socket.on('join', (data) => {
 
-      let msgText = data.username + ' has joined the room'
-      let time = new Date().toLocaleTimeString()
-      socket.broadcast.emit('newMsg', {username, msgText, time})
-      users[socket.id] = data.username
-    });
+    allSockets[socket.id] = data.userCode;
+    allUsers[parseInt(data.userCode)] = socket.id;
+    console.log(`${data.username}  has joined with socket id ${socket.id}`)
+  });
 
-    socket.on('editUsername', (data) => {
-      users[socket.id] = data.newUsername
-    });
-    
+  socket.on('newMsg', (newMsg) => {
 
-    socket.on('newMsg', (msg) => {
-        io.emit('newMsg', msg);
-    });
+    console.log("Recieived", newMsg.text, newMsg.toName.toLowerCase())
+    if(newMsg.conversationType == 'room'){
 
-    socket.on('disconnect', () => {
-      let msgText = users[socket.id] + ' has left the room'
-      let time = new Date().toLocaleTimeString()
-      socket.broadcast.emit('newMsg', {username, msgText, time})
-    });
+      console.log(`Sending to ${newMsg.toName.toLowerCase()}`)
+      io.to('global').emit('newMsg', newMsg); 
+    }
+    else if(newMsg.conversationType == 'user'){
+        
+      console.log(`Sending to ${allUsers[newMsg.fromCode]} and ${allUsers[newMsg.toCode]}`)
+      io.to(allUsers[newMsg.fromCode]).emit('newMsg', newMsg);
+      io.to(allUsers[newMsg.toCode]).emit('newMsg', newMsg);
+    }
+    insertMessage(newMsg);
+  });
+
+  socket.on('disconnect', () => {
+
+    delete allUsers[allSockets[socket.id]]
+    delete allSockets[socket.id];
+    console.log(`currentConnections[socket.id]  has left`)
+  });
 });
 
 
-server.listen(port, () => console.log(`Socket server Running at port ${port}`))
+server.listen(serverConfig.port, () => console.log(`Socket server Running at port ${serverConfig.port}`))
