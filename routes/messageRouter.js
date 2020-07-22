@@ -45,7 +45,7 @@ messageRouter.route('/')
 
 messageRouter.route('/:conversationCode')
 .get((req, res, next) => {
-    console.log(`GET /messages/${req.params.contactCode}`)
+    console.log(`GET /messages/${req.params.conversationCode}`)
     messages.findOne({'conversationCode': parseInt(req.params.conversationCode)}, function(err, document) {
         assert.equal(err, null);
         // console.log("Found the following record");

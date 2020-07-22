@@ -20,11 +20,13 @@ class MessageHandler{
     async loadMessage(contact){
 
         let conversationCode = window.contactManager.getConversationCode(contact)
+        console.log(`Gteting messages of ${conversationCode}`)
+        console.log(`messages/${conversationCode.toString()}`)
 
-            await axios.get(`messages/${conversationCode.toString()}`)
-                .then(res => {
-                    this.conversations[parseInt(conversationCode)] = res.data.messages || [];
-                })
+        await axios.get(`messages/${conversationCode.toString()}`)
+            .then(res => {
+                this.conversations[parseInt(conversationCode)] = res.data.messages || [];
+            })
     }
 
     appendMessage(conversationCode, message){

@@ -73,17 +73,6 @@ class ContactManager{
         console.log("Selected Conversation is", this.conversationCode)
 
         window.router.loadRoute('messenger')
-
-        // var currentName;
-        // axios.get(`/contacts/${contactInfo.contactCode}`) //Check If user has changed name since we logged in 
-        // .then(res => {
-        //     currentName = res.data.contactName;
-        //     if(currentName != contactInfo.contactName){
-        //         li.innerHTML = `<p class="contact">${currentName}</p>
-        //                 <p>${contactInfo.contactCode}</p>`
-        //         this.targetContactName = contactInfo.contactName;
-        //     }
-        // })
     }
     
 

@@ -271,7 +271,7 @@ header{
     margin:0;
     background-color: var(--light-gray);
     display:grid;
-    grid-template-rows: 8% 82% 10%;
+    grid-template-rows:minmax(50px, 8%) 1fr minmax(50px, 8%);
     /* overflow:hidden; */
 }
 .contact-name-wrapper{
@@ -331,7 +331,7 @@ header{
 
 .form-wrapper{
     background-color: var(--light-gray);
-    padding:1rem 2rem 0 2rem;
+    padding:1rem 2rem 1rem 2rem;
 }
 #messageForm{
     /* height:50px;
@@ -341,9 +341,9 @@ header{
     bottom:0;
     left:0;
     right:0; */
-    height:60%;
+    height:80%;
     border:none;
-    padding:0.2rem;
+    padding:0rem;
     border-radius:10rem;
     display:flex;
     /* justify-content: space-between; */
@@ -355,7 +355,7 @@ header{
     flex-grow: 1;
     /* width:90%; */
     padding:1rem;
-    margin:1rem;
+    /* margin:1rem; */
     border:none;
     font-size:1.5rem;
     font-weight:100;
@@ -366,7 +366,7 @@ header{
     /* height:65%; */
     min-width:40px;
     width:10%;
-    padding:0.75rem 0.75rem 0.75rem 1.1rem;
+    padding:5px;
     background-color: var(--light-blue);
     color:var(--font-white);
     border:none;
@@ -390,8 +390,8 @@ li{
     background-color: var(--light-gray);
 }
 
-/* @media(min-width: 1300px){
-    body{
-        padding:2rem;
-    }
-} */
+input:focus, textarea:focus, select:focus{
+
+    outline: none;
+
+}
