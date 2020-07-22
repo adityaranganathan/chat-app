@@ -1,100 +1,319 @@
 :root {
-    --main-bg-color: #221e1e;
+    --main-bg-color: #556068;
     --message-bg-color:#d9eefb;
     --header-bg-color:#ededed;
+
+    --light-gray:#1e2732;
+    --light-gray-selected:#384a60;
+    --dark-gray:#161f29;
+    --light-blue:#0BB6C9;
+    --light-blue-active:#256B73;
+
+    --font-white:white;
+
+    --contact-card-size:80px;
+    --contact-image-size:30%;
+    
+    --profile-image-size:18vh;
+}
+*, *:before, *:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+ul{
+    padding:0;
 }
 
-*{ 
-    margin: 0; 
-    padding: 0; 
-    box-sizing: border-box;
-    font-size: 10px;
-    font-family: 'Roboto', sans-serif;
+li{
+    list-style-type: none;
 }
+p{
+    margin:0;
+}
+
+img{
+    max-height:100%;
+}
+
 html{
     height:100%;
-    background-color: var(--main-bg-color);
+    width:100%;
+    font-size: 10px;
+    font-family: 'Roboto', sans-serif;
+    font-weight:100;
+    color:var(--font-white);
 }
+
 body{
     height:100%;
+    width:100%;
+    margin:0;
+    background-color: var(--light-gray);
+    overflow:hidden;
+}
+#app{
+    height:100%;
+    width:100%;
+    margin:0;
+    overflow:hidden;
+}
+#chat{
+    height:100%;
+    width:100%;
+    margin:0;
+    background-color: var(--light-gray);
     display:grid;
-    grid-template-columns: minmax(0px, 1fr) minmax(200px, 400px) minmax(600px, 1000px) minmax(0px, 1fr);
+    grid-template-rows: 8% 84% 8%;
     overflow:hidden;
 }
 
-#chat-info-wrapper{
-    grid-column: 2/3;
-    background-color: var(--header-bg-color);
-    box-shadow: -3px -3px 9px -1px black;
+header{
+    position: relative;
 }
-#username-wrapper{
-    height:60px;
+.chat-heading{
     width:100%;
-    padding:0rem 2rem;
-    display: flex;
-    justify-content: space-evenly;
-    background-color: var(--header-bg-color);
-}
-#username{
-    line-height: 60px;
-    font-size: 2.5rem;
-
+    text-align:center;
+    position: absolute;
+    bottom:0;
+    font-weight: 400;
 }
 
-#chat-box-wrapper{
-    grid-column: 3/4;
-    background-color: #e5ddd5;
-    box-shadow: 0px -3px 5px -1px black;
+.contacts{
+    margin: 0;
+    padding:0;
+    background-color: var(--dark-gray);
+    /* overflow:hidden; */
+    
+}
+.contact__list{
+    height: var(--contact-card-size);
+    width:100%;
+    padding:0 2rem 0 2rem;
     position:relative;
+    display:flex;
+    font-size: 1.1rem;
 }
-.contact-info{
-    height:75px;
-    background-color: white;
-    border-top:solid 1px #d0d0d0;
+.contact__list:hover{
+    background-color: var(--light-gray-selected);
 }
-.contact{
-    font-size:2rem;
-    line-height: 75px;
-    padding-left:2rem;
+.contact__list::after{
+    content:"";
+    height:2px;
+    position:absolute;
+    bottom:0;
+    left:2rem;
+    right:2rem;
+    background-color:var(--light-gray);
 }
-#contactname{
-    height:60px;
-    width:100%;
-    padding:0rem 2rem;
-    line-height: 60px;
-    font-size: 2.5rem;
-    background-color: var(--header-bg-color);
+
+.contact__img{
+    width:var(--contact-card-size);
+    clip-path: circle(var(--contact-image-size));
 }
-#addContactWrapper{
-    height:30px;
-    width:100%;
+
+.contact__info{
+    flex-grow: 1;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
 }
-#addContactWrapper input{
+
+.contact__name{
     font-size: 1.5rem;
-    height:100%;
-    width:70%;
+    font-weight:400;
+    letter-spacing: 1px;
 }
-#addContactWrapper button{
+
+.contact__msg{
+    margin-top:1rem;
+}
+
+.contact__time{
+    float:right;
+    margin-top:2px;
+    font-size: 1rem;
+    font-weight:100;
+    text-align: right;
+    
+}
+
+.tap-bar{
+    width:100%;
+    display:flex;
+    justify-content: space-evenly;
+    /* background-color: aquamarine; */
+}
+.tap-bar__link{
+    height:100%;
+    width:30%;
+    position:relative;
+    /* background-color: blue; */
+}
+
+.tap-bar__link:hover{
+    background-color: var(--light-gray-selected);
+}
+.tap-bar__link:hover > .tap-bar__icon{
+    filter: invert(100%) sepia(99%) saturate(9%) hue-rotate(199deg) brightness(104%) contrast(100%);
+}
+
+.tap-bar__icon{
+    height:35%;
+    color:var(--light-blue);
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform: translate(-50%, -50%);
+    /* Need To change icons */
+    /* background: var(--light-blue); */
+    filter: invert(52%) sepia(55%) saturate(854%) hue-rotate(140deg) brightness(99%) contrast(91%);
+    /* transition: filter; */
+}
+
+
+/*Profile Page*/
+#profile{
+    height:100%;
+    width:100%;
+    max-width:100%;
+    margin:0;
+    background-color: var(--light-gray);
+    display:grid;
+    grid-template-rows: 10% 80% 10%;
+    overflow:hidden;
+}
+.profile-header{
+    position:relative;
+    display:flex;
+}
+.profile-header__link{
     height:100%;
     width:20%;
+    position:relative;
+    /* background-color: blue; */
+}
+
+.profile-header__link:hover{
+    background-color: var(--light-gray-selected);
+}
+.profile-header__link:hover > .tap-bar__icon{
+    filter: invert(100%) sepia(99%) saturate(9%) hue-rotate(199deg) brightness(104%) contrast(100%);
+}
+.profile-info{
+    padding:4rem;
+
+}
+.profile-img{
+    width:var(--profile-image-size);
+    clip-path: circle(50%);
+    margin:1rem;
+}
+.profile-name{
+    position:relative;
+    margin:0.5rem;
+    color:var(--font-white);
+    font-size: 2.2rem;
+    font-weight:400;
+    /* text-align: center; */
+}
+#username{
+    display:inline-block;
+    overflow:hidden;
+    max-width:60vw;
+    text-overflow: ellipsis;
+    margin-top:1rem;
+}
+
+.profile-code{
+    color:var(--font-white);
+    font-size: 1.5rem;
+}
+.center{
+    text-align: center;
+}
+.button{
+    height:50%;
+    width:70%;
+    background-color: var(--light-blue);
+    color:var(--font-white);
+    border:none;
+    font-weight:300;
+    transition: background-color, transform 100ms;
+}
+.button:hover{
+    background-color: var(--light-blue-active);
+    transform: scale(1.05);
+}
+.edit-icon{
+    position: absolute;
+    margin-left: 1rem;
+    top:50%;
+    transform: translateY(-50%);
+    height:2.2rem;
+    width:2.2rem;
+    filter: invert(52%) sepia(55%) saturate(854%) hue-rotate(140deg) brightness(99%) contrast(91%);
+}
+.edit-icon:hover{
+    filter: invert(100%) sepia(99%) saturate(9%) hue-rotate(199deg) brightness(104%) contrast(100%);
+    transform: scale(1.05);
+    height:2.4rem;
+    width:2.4rem;
+    top:50%;
+    transform: translateY(-50%);
+}
+
+
+/* Message View Styling */
+#messenger{
+    height:100%;
+    width:100%;
+    margin:0;
+    background-color: var(--light-gray);
+    display:grid;
+    grid-template-rows: 8% 82% 10%;
+    /* overflow:hidden; */
+}
+.contact-name-wrapper{
+    position: relative;
+    height:100%;
+    width:80%;
+}
+.contact-name{
+    font-size: 2rem;
+    font-weight:300;
+    position: absolute;
+    top:50%;
+    transform:translateY(-50%);
 }
 #message-list{
-    position: absolute;
+    /* position: absolute;
     top:60px;
     bottom:50px;
     left:0px;
-    right:0px;
+    right:0px; */
     overflow: auto;
+    margin:0;
+    padding:0 1rem 0 1rem;
+    background-color: var(--dark-gray);
 }
 .message{
     list-style-type: none;
-    /* height:50px; */
-    height:max-content;
-    margin:2rem;
+    width:60vw;
+    margin:0.6rem;
     border-radius: .5em;
-    background-color: var(--message-bg-color);
+    color: var(--font-white);
     padding:0.9rem;
     position: relative;
+    font-weight: 300;
+}
+.received{
+    float:left;
+    background-color: var(--light-gray);
+}
+.sent{
+    float:right;
+    background-color: var(--light-blue);
 }
 .message .user{
     font-size: 1.25rem;
@@ -107,50 +326,72 @@ body{
     right:1rem;
 }
 .message .text{
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
-
+.form-wrapper{
+    background-color: var(--light-gray);
+    padding:1rem 2rem 0 2rem;
+}
 #messageForm{
-    height:50px;
+    /* height:50px;
     width:100%;
     bottom:0;
     position: absolute;
     bottom:0;
     left:0;
-    right:0;
+    right:0; */
+    height:60%;
+    border:none;
+    padding:0.2rem;
+    border-radius:10rem;
+    display:flex;
+    /* justify-content: space-between; */
+    background-color: var(--dark-gray);
+    overflow:hidden;
 }
-#messageForm input{
+#messageInput{
+    /* height:65%; */
+    flex-grow: 1;
+    /* width:90%; */
+    padding:1rem;
+    margin:1rem;
+    border:none;
+    font-size:1.5rem;
+    font-weight:100;
+    background-color: var(--dark-gray);;
+    color:var(--font-white);
+}
+#messageButton{
+    /* height:65%; */
+    min-width:40px;
+    width:10%;
+    padding:0.75rem 0.75rem 0.75rem 1.1rem;
+    background-color: var(--light-blue);
+    color:var(--font-white);
+    border:none;
+    border-radius:5rem;
+    cursor: pointer;
+}
+.send-icon{
     height:100%;
     width:100%;
-    padding:1rem;
-    margin:0;
-    border:none;
-    border-radius:0.5rem;
-    padding-right: 10%;
-    font-size:2rem;
+    filter: invert(100%) sepia(99%) saturate(9%) hue-rotate(199deg) brightness(104%) contrast(100%);
+    
 }
-#messageForm button{
-    height:100%;
-    width:10%;
-    position: absolute;
-    right:0;
-    border:black;
-    border-radius:0.5rem;
-    font-size:1.5rem;
-    cursor: pointer;
+#messageButton:hover{
+    transform: scale(1.05);
 }
 
 li{ 
     list-style-type: none;
 }
-
-.selected{
-    background-color: burlywood;
+.unread{
+    background-color: var(--light-gray);
 }
 
-@media(min-width: 1300px){
+/* @media(min-width: 1300px){
     body{
         padding:2rem;
     }
-}
+} */

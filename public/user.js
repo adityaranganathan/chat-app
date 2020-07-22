@@ -1,20 +1,12 @@
-"user strict"
+"use strict"
 
 import {socket} from './environmentConfig.js';
-import { ContactManager } from "./contactManager.js";
-import { MessageHandler } from './messageHandler.js';
 
 class User{
 
     constructor(){
-        this.name = "";
-        this.nameBanner = document.getElementById('username');
-        this.editButton = document.getElementById('username-edit')
-        this.editButton.addEventListener('click', () => this.updateUsername.call(this));
+        this.name = null;
         this.code = parseInt(localStorage.getItem('userCode'));
-        this.codeBanner = document.getElementById('usercode')
-        this.contactManager = new ContactManager(this);
-        this.messageHandler = new MessageHandler(this);
     }
 
     async initialiseUser(){
@@ -25,7 +17,6 @@ class User{
         else{
             await this.postNewUser();
         }
-        this.contactManager.getContacts();
         socket.emit('join', {'username': this.name, 'userCode': this.code.toString()})
     }
 
@@ -34,40 +25,35 @@ class User{
             .then(res => {
                 localStorage.setItem('userCode',  res.data['contactCode']);
                 this.code = parseInt(res.data['contactCode']);
-                this.updateDisplayElements(res.data);
+                this.updateData(res.data);
             })
             .catch(err => console.log(err))
     }
 
-
-    async getUserInfo(callback = null){
+    async getUserInfo(){
 
         await axios.get(`/contacts/${this.code}`)
             .then(res => {
-                this.updateDisplayElements(res.data);
+                this.updateData(res.data);
             })
             .catch(err => console.log(err));
     }
 
-    updateDisplayElements(data){
-        this.name = data['contactName'];
-        this.nameBanner.textContent = this.name;
-        this.codeBanner.textContent = this.code;      
+    updateData(data){
+        this.name = data['contactName']
+        console.log("Updated user data")
+        if(window.profileUI){
+            window.profileUI.load();
+        }
     }
 
     patchUserInfo(data){
         axios.patch(`contacts/${this.code}`, data)
         .then(res => {
+            console.log("Patch Successful")
             this.getUserInfo();
         })
         .catch(err => console.log(err))
-    }
-
-    updateUsername(){
-
-        let newUsername = prompt("Enter new name:");
-        let newData = {'contactName':newUsername};
-        this.patchUserInfo(newData);
     }
 
 }

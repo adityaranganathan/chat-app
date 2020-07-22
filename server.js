@@ -11,6 +11,16 @@ const app = express();
 const server = require('http').Server(app);
 const io = require('socket.io')(server)
 
+var allowCrossDomain = function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,PATCH,DELETE');
+  res.header('Access-Control-Allow-Headers', 'Content-Type');
+
+  next();
+}
+app.use(allowCrossDomain);
+
+
 app.use(express.static(__dirname + '/public'));
 app.use('/contacts', contactRouter);
 app.use('/messages', messageRouter);

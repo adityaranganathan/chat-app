@@ -5,24 +5,48 @@ import {socket} from './environmentConfig.js';
 class MessageHandler{
 
     constructor(user){
-        this.user = user;
-        this.messageList = document.getElementById('message-list')
-        this.messageForm = document.getElementById('messageForm')
-        this.messageForm.addEventListener('submit', (evt) => this.sendMsg.call(this, evt))
+       this.conversations = {};
+    }
+
+    async loadMessages(){
+
+        let allContacts = window.contactManager.contacts;
+        for(let contact of allContacts){
+
+            await this.loadMessage(contact);
+        }
+    }
+
+    async loadMessage(contact){
+
+        let conversationCode = window.contactManager.getConversationCode(contact)
+
+            await axios.get(`messages/${conversationCode.toString()}`)
+                .then(res => {
+                    this.conversations[parseInt(conversationCode)] = res.data.messages || [];
+                })
+    }
+
+    appendMessage(conversationCode, message){
+        console.log("After contact creation C")
+        delete message.conversationCode;
+        delete message.conversationType;
+        this.conversations[conversationCode].push(message);
     }
 
     sendMsg(evt){
     
         evt.preventDefault();
-        let conversationCode = this.user.contactManager.conversationCode;
+        let conversationCode = window.contactManager.conversationCode;
         let text = evt.target.elements.messageInput.value;
     
-        let time = new Date().toLocaleTimeString();
-        socket.emit('newMsg', { 'fromName': this.user.name, 
-                                'fromCode': this.user.code,
-                                'toCode': this.user.contactManager.targetContactCode, 
-                                'toName': this.user.contactManager.targetContactName,
-                                'conversationType': this.user.contactManager.targetContactType,
+        let time = new Date();
+        time = time.toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+        socket.emit('newMsg', { 'fromName': window.user.name, 
+                                'fromCode': window.user.code,
+                                'toCode': window.contactManager.targetContactCode, 
+                                'toName': window.contactManager.targetContactName,
+                                'conversationType': window.contactManager.targetContactType,
                                 'conversationCode': conversationCode,
                                 text,
                                 time})
@@ -30,56 +54,19 @@ class MessageHandler{
         evt.target.elements.messageInput.value = '';
     }
 
-    pushMsg(msg){
+    async pushMsg(msg){
 
         console.log("Got ", msg)
-
-        if(msg.conversationCode == this.user.contactManager.conversationCode){
-            let li = document.createElement('li')
-            li.classList.add('message')
-            li.innerHTML = `<p class="user">${msg.fromName}<span class="time">${msg.time}</span></p>
-                            <p class="text">${msg.text}</p>`
-            this.messageList.appendChild(li);
+        if(!(msg.conversationCode in this.conversations)){
+            let newContactCode = msg.fromCode;
+            await window.contactManager.addContact(parseInt(newContactCode));
+            console.log("After contact creation B")
         }
-        else{
-            let chats = this.user.contactManager.contactsList.children;
-            for(let chat of chats){
-                if(chat.dataset.conversationCode == msg.conversationCode){
-                    chat.classList.add('selected');
-                    break;
-                }
-            }
+        if(window.router.currentRoute == 'messenger' && msg.conversationCode == window.contactManager.conversationCode){
+            window.messengerUI.createMessage(msg);
         }
-        this.messageList.scrollTop = this.messageList.scrollHeight;
-    }
-
-    async loadMessages(convCode){
-
-        var data;
-        await axios.get(`messages/${convCode}`)
-            .then(res => {
-                data = res.data;
-            })
-
-        // console.log(data)
-        var messages = data.messages;
-        if(messages){
-            this.messageList.textContent = ''
-            for(let message of messages){
-        
-                let li = document.createElement('li')
-                li.classList.add('message')
-                li.innerHTML = `<p class="user">${message.fromName}<span class="time">${message.time}</span></p>
-                                <p class="text">${message.text}</p>`
-                this.messageList.appendChild(li);
-            }
-            this.messageList.scrollTop = this.messageList.scrollHeight;
-        }
-        else{
-            // console.log("No messages found")
-            this.messageList.textContent = ''
-        }
-        
+        window.chatUI.updateLastMessage(msg);
+        this.appendMessage(parseInt(msg.conversationCode), msg)
     }
 }
 

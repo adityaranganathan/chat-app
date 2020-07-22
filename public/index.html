@@ -3,51 +3,15 @@
   <head>
     <meta content="text/html;charset=utf-8" http-equiv="Content-Type">
     <meta content="utf-8" http-equiv="encoding">
+    <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 
     <title>ChatApp</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300&display=swap" rel="stylesheet"> 
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@100;300;400&display=swap" rel="stylesheet"> 
     <link rel="stylesheet" href="main.css">
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
   </head>
-  <body>
-    <section id="chat-info-wrapper">
-      <div id="username-wrapper">
-        <h3 contenteditable="true" id="username"></h3>
-        <button id="username-edit">Edit</button>
-      </div>
-      
-      <h5 id="usercode"></h5>
-
-      <ul id="contacts-wrapper">
-        <!-- <li class="contact-info">
-          <p class="contact">Global</p>
-        </li> -->
-      </ul>
-
-        <form action="" id="addContactWrapper">
-          <input id="ContactInput" type="text" autocomplete="off">
-          <button>Add</button>
-        </form>
-        
-      </ul>
-    </section>
-
-    <section id="chat-box-wrapper">
-      <h3 id="contactname">Global</h3>
-
-      <ul id="message-list">
-        <!-- <li class="message">
-          <p class="user">Brad<span class="time">9:12</span></p>
-          <p class="text">This is a message</p>
-        </li> -->
-      </ul>
-
-      <form action="" id="messageForm">
-        <input id="messageInput" autocomplete="off" />
-        <button>Send</button>
-      </form>
-
-    </section>
+  <body >
+    <div id="app"></div>
 
     <script src="/socket.io/socket.io.js"></script>
     <script src='index.js' type='module'></script>
